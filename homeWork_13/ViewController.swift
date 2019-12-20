@@ -90,6 +90,7 @@ extension ViewController : UITableViewDelegate{
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if decelerate {
             postModel.initModel(t:false)
+            self.myTableView.isScrollEnabled = false
         }
     }
     
@@ -123,13 +124,16 @@ extension ViewController: AddViewDelegate{
 
 extension ViewController: ModelUpdating{
     func showError(error: String) {
-            self.makeAlert(title: "Внимание", text: "Ошибка во время работы с сетью: \n \(error)")
+        self.makeAlert(title: "Внимание", text: "Ошибка во время работы с сетью: \n \(error)")
+        self.myTableView.isScrollEnabled = true
+        
     }
     
     func updateModel() {
         DispatchQueue.main.async {
             self.myTableView.reloadData()
             self.refreshControl.endRefreshing()
+            self.myTableView.isScrollEnabled = true
         }
         
     }
