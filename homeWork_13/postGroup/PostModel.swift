@@ -20,6 +20,7 @@ class PostModel{
     
     private var postArray : [Post] = []
     
+    var addedCount = 0
     var fromIndex = 0
     var batchSize = 5
     
@@ -54,6 +55,7 @@ class PostModel{
         sendPostReqest(post: post,
                        completion: { post in
                         self.postArray.insert(post, at: 0)
+                        self.addedCount+=1
                         self.delegate?.updateModel()
         },
                        failure: { error in
@@ -68,7 +70,8 @@ class PostModel{
         sendGetReqest(
             completion: { tmp in
                 self.postArray += tmp
-                self.fromIndex = self.postArray.count
+                self.fromIndex = self.postArray.count - self.addedCount
+
                 self.delegate?.updateModel()
         },
             failure: { error in
